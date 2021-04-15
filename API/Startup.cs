@@ -36,7 +36,7 @@ namespace API
             {
                 opt.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("httsp://localhost:4200");
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
                 });
             });
 
@@ -47,12 +47,8 @@ namespace API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ExceptionMiddleware>();
-            if (env.IsDevelopment())
-            {
-                // app.UseDeveloperExceptionPage();
-
-            }
-
+            
+            app.UseSwaggerDocumentation();
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
             app.UseHttpsRedirection();
 
@@ -60,7 +56,7 @@ namespace API
             app.UseStaticFiles();
             app.UseCors("CorsPolicy");
             app.UseAuthorization();
-            app.UseSwaggerDocumentation();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
